@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace heist
 {
@@ -11,29 +12,41 @@ namespace heist
         }
         static void Play()
         {
+            Team myTeam = new Team();
             int skill1 = 0;
             double courage1 = 0;
             Console.Write("Enter a team member's name: ");
             string member1 = Console.ReadLine();
-            Console.Write("Enter skill level: ");
-            try
+            while(member1 != "")
             {
-                skill1 = Int32.Parse(Console.ReadLine());
-                Console.Write("Enter courage level: ");
-                courage1 = Convert.ToDouble(Console.ReadLine());
-                if(courage1 < 0 | courage1 > 2)
+                Console.Write("Enter skill level: ");
+                try
                 {
-                    Console.Write("Enter courage level (between 0 and 2): ");
+                    skill1 = Int32.Parse(Console.ReadLine());
+                    Console.Write("Enter courage level: ");
                     courage1 = Convert.ToDouble(Console.ReadLine());
+                    if(courage1 < 0 | courage1 > 2)
+                    {
+                        Console.Write("Enter courage level (between 0 and 2): ");
+                        courage1 = Convert.ToDouble(Console.ReadLine());
+                    }
+                    else
+                    {
+                        Member member = new Member(member1, skill1, courage1);
+                        myTeam.Members.Add(member);
+                    }
+                    Console.Write("Enter a team member's name: ");
+                    member1 = Console.ReadLine();
                 }
-                else
+                catch
                 {
-                Console.WriteLine($"{member1} has skill level {skill1} and courage factor {courage1}.");
+                    Console.WriteLine("Something went wrong!");
                 }
             }
-            catch
+            Console.WriteLine($"You have {myTeam.Members.Count} team members.");
+            foreach(Member person in myTeam.Members)
             {
-                Console.WriteLine("Something went wrong!");
+                Console.WriteLine($"{person.Name} has skill level {person.Skill} and courage factor {person.Courage}.");
             }
         }
     }
