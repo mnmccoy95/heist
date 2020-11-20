@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace heist
 {
@@ -48,6 +49,25 @@ namespace heist
             {
                 Console.WriteLine($"{person.Name} has skill level {person.Skill} and courage factor {person.Courage}.");
             }
+            int luck = RNG();
+            int bankDifficulty = 100 + luck;
+            int combinedSkill = myTeam.Members.Sum(member => member.Skill);
+
+            Console.WriteLine($"Bank Difficulty: {bankDifficulty}, Team Skill: {combinedSkill}");
+            
+            if(combinedSkill >= bankDifficulty)
+            {
+                Console.WriteLine("You did it!!");
+            }
+            else
+            {
+                Console.WriteLine("You failed! :(");
+            }
+        }
+        public static int RNG() {
+            Random r = new Random();
+            int genRand= r.Next(-10,11);
+            return genRand;
         }
     }
 }
