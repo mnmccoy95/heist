@@ -14,14 +14,20 @@ namespace heist
         static void Play()
         {
             int diff = 0;
-            Console.Write("Enter bank difficulty: ");
-            try
+            bool tryAgain = true;
+            while(tryAgain)
             {
-                diff = Int32.Parse(Console.ReadLine());
-            }
-            catch
-            {
-                Console.WriteLine("Something went wrong!");
+                try
+                {
+                    Console.Write("Enter bank difficulty: ");
+                    diff = Int32.Parse(Console.ReadLine());
+                    tryAgain = false;
+                }
+                catch
+                {
+                    Console.WriteLine("Something went wrong!");
+                    Console.WriteLine("");
+                }
             }
             Team myTeam = new Team();
             int skill1 = 0;
@@ -30,21 +36,37 @@ namespace heist
             string member1 = Console.ReadLine();
             while(member1 != "")
             {
-                Console.Write("Enter skill level: ");
+                while(!tryAgain)
+                {
+                    try
+                    {
+                        Console.Write("Enter skill level: ");
+                        skill1 = Int32.Parse(Console.ReadLine());
+                        tryAgain = true;
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Something went wrong!");
+                        Console.WriteLine("");
+                    }
+                }
                 try
                 {
-                    skill1 = Int32.Parse(Console.ReadLine());
                     Console.Write("Enter courage level: ");
                     courage1 = Convert.ToDouble(Console.ReadLine());
-                    if(courage1 < 0 | courage1 > 2)
+                    while(tryAgain)
                     {
-                        Console.Write("Enter courage level (between 0 and 2): ");
-                        courage1 = Convert.ToDouble(Console.ReadLine());
-                    }
-                    else
-                    {
-                        Member member = new Member(member1, skill1, courage1);
-                        myTeam.Members.Add(member);
+                        if(courage1 < 0 | courage1 > 2)
+                        {
+                            Console.Write("Enter courage level (between 0 and 2): ");
+                            courage1 = Convert.ToDouble(Console.ReadLine());
+                        }
+                        else
+                        {
+                            tryAgain = false;
+                            Member member = new Member(member1, skill1, courage1);
+                            myTeam.Members.Add(member);
+                        }
                     }
                     Console.Write("Enter a team member's name: ");
                     member1 = Console.ReadLine();
@@ -52,23 +74,25 @@ namespace heist
                 catch
                 {
                     Console.WriteLine("Something went wrong!");
+                    Console.WriteLine("");
                 }
             }
             Console.WriteLine($"You have {myTeam.Members.Count} team members.");
-            foreach(Member person in myTeam.Members)
-            {
-                Console.WriteLine($"{person.Name} has skill level {person.Skill} and courage factor {person.Courage}.");
-            }
             int trials = 0;
             int trialsRun = 0;
-            Console.Write("Enter trial runs: ");
-            try
+            while(!tryAgain)
             {
-                trials = Int32.Parse(Console.ReadLine());
-            }
-            catch
-            {
-                Console.WriteLine("Something went wrong!");
+                try
+                {
+                    Console.Write("Enter trial runs: ");
+                    trials = Int32.Parse(Console.ReadLine());
+                    tryAgain = true;
+                }
+                catch
+                {
+                    Console.WriteLine("Something went wrong!");
+                    Console.WriteLine("");
+                }
             }
 
             int success = 0;
@@ -93,6 +117,7 @@ namespace heist
                 }
                 trialsRun++;
             }
+            Console.WriteLine("");
             Console.WriteLine($"You succeeded {success} times and failed {fail} times.");
         }
         public static int RNG() {
