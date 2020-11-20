@@ -13,6 +13,16 @@ namespace heist
         }
         static void Play()
         {
+            int diff = 0;
+            Console.Write("Enter bank difficulty: ");
+            try
+            {
+                diff = Int32.Parse(Console.ReadLine());
+            }
+            catch
+            {
+                Console.WriteLine("Something went wrong!");
+            }
             Team myTeam = new Team();
             int skill1 = 0;
             double courage1 = 0;
@@ -61,10 +71,12 @@ namespace heist
                 Console.WriteLine("Something went wrong!");
             }
 
+            int success = 0;
+            int fail = 0;
             while(trials > trialsRun)
             {
                 int luck = RNG();
-                int bankDifficulty = 100 + luck;
+                int bankDifficulty = diff + luck;
                 int combinedSkill = myTeam.Members.Sum(member => member.Skill);
 
                 Console.WriteLine($"Bank Difficulty: {bankDifficulty}, Team Skill: {combinedSkill}");
@@ -72,13 +84,16 @@ namespace heist
                 if(combinedSkill >= bankDifficulty)
                 {
                     Console.WriteLine("You did it!!");
+                    success++;
                 }
                 else
                 {
                     Console.WriteLine("You failed! :(");
+                    fail++;
                 }
                 trialsRun++;
             }
+            Console.WriteLine($"You succeeded {success} times and failed {fail} times.");
         }
         public static int RNG() {
             Random r = new Random();
